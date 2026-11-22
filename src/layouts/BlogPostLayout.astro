@@ -1,0 +1,135 @@
+---
+import type { MarkdownHeading } from 'astro';
+import type { BlogPost } from '../utils/posts';
+import { getReadingTime } from '../utils/posts';
+import TableOfContents from '../components/TableOfContents.astro';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  post: BlogPost;
+  headings: MarkdownHeading[];
+}
+
+const { post, headings } = Astro.props;
+const dateFormatter = new Intl.DateTimeFormat('en', {
+  day: 'numeric',
+  month: 'long',
+  timeZone: 'UTC',
+  year: 'numeric',
+});
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate}
+  updatedTime={post.data.updatedDate}
+  tags={post.data.tags}
+>
+  <article class="post shell">
+    <header class="post-header">
+      <a class="eyebrow" href="/blog/">Articles</a>
+      <h1>{post.data.title}</h1>
+      <p class="post-description">{post.data.description}</p>
+      <div class="post-meta">
+        <span>Published <time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time></span>
+        {post.data.updatedDate && (
+          <span>Updated <time datetime={post.data.updatedDate.toISOString()}>{dateFormatter.format(post.data.updatedDate)}</time></span>
+        )}
+        <span>{getReadingTime(post)}</span>
+      </div>
+      {post.data.tags.length > 0 && (
+        <ul class="tag-list" aria-label="Article tags">
+          {post.data.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      )}
+    </header>
+    <div class="post-grid">
+      <TableOfContents headings={headings} />
+      <div class="article-body">
+        <slot />
+      </div>
+    </div>
+  </article>
+
+<script>
+  import mermaid from 'mermaid';
+
+  type DiagramElement = HTMLElement & { dataset: { source?: string } };
+  let diagramSequence = 0;
+
+  const currentTheme = () => {
+    const explicit = document.documentElement.dataset.theme;
+    if (explicit === 'dark' || explicit === 'light') return explicit;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  const prepareDiagrams = () => {
+    document.querySelectorAll<HTMLElement>('.article-body pre[data-language="mermaid"] > code').forEach((code) => {
+      const pre = code.parentElement;
+      if (!pre) return;
+      const diagram = document.createElement('div') as DiagramElement;
+      const source = code.textContent ?? '';
+      const title = source.match(/^\s*accTitle:\s*(.+)$/m)?.[1];
+      const description = source.match(/^\s*accDescr:\s*(.+)$/m)?.[1];
+      diagram.className = 'mermaid-diagram';
+      diagram.dataset.source = source;
+      diagram.setAttribute('role', 'img');
+      diagram.setAttribute(
+        'aria-label',
+        title && description
+          ? `${title}. ${description}`
+          : `Diagram: ${source.replace(/\s+/g, ' ').trim()}`,
+      );
+      pre.replaceWith(diagram);
+    });
+  };
+
+  const renderDiagrams = async () => {
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: currentTheme() === 'dark' ? 'dark' : 'neutral',
+    });
+
+    for (const diagram of document.querySelectorAll<DiagramElement>('.mermaid-diagram')) {
+      try {
+        const result = await mermaid.render(
+          `mermaid-${diagramSequence++}`,
+          diagram.dataset.source ?? '',
+        );
+        diagram.innerHTML = result.svg;
+      } catch (error) {
+        diagram.textContent = 'The diagram could not be rendered.';
+        diagram.classList.add('mermaid-error');
+        console.error(error);
+      }
+    }
+  };
+
+  const addCopyButtons = () => {
+    document.querySelectorAll<HTMLElement>('.article-body pre').forEach((pre) => {
+      const code = pre.querySelector('code');
+      if (!code || pre.dataset.language === 'mermaid') return;
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'copy-code';
+      button.textContent = 'Copy';
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+      button.addEventListener('click', async () => {
+        await navigator.clipboard.writeText(code.textContent ?? '');
+        button.textContent = 'Copied';
+        window.setTimeout(() => (button.textContent = 'Copy'), 1600);
+      });
+      pre.append(button);
+    });
+  };
+
+  prepareDiagrams();
+  void renderDiagrams();
+  addCopyButtons();
+  window.addEventListener('theme-change', () => void renderDiagrams());
+</script>
+</BaseLayout>

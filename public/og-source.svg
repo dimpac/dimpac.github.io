@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4f1e9"/>
+  <path d="M0 79.5h1200M0 550.5h1200" stroke="#cbc5b8"/>
+  <path d="M600 0v630" stroke="#ded9cd"/>
+  <rect x="80" y="80" width="76" height="76" fill="none" stroke="#20231f" stroke-width="2"/>
+  <text x="118" y="126" fill="#20231f" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="middle" letter-spacing="1">TDB</text>
+  <text x="80" y="335" fill="#20231f" font-family="Georgia, serif" font-size="72">The Deterministic Boundary</text>
+  <text x="84" y="405" fill="#62675f" font-family="Arial, sans-serif" font-size="25" letter-spacing="0.5">WHERE PROBABILISTIC INTELLIGENCE MEETS DETERMINISTIC ENGINEERING.</text>
+  <rect x="80" y="468" width="90" height="5" fill="#a3472d"/>
+</svg>

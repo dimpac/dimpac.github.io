@@ -1,0 +1,24 @@
+---
+import ArticleCard from '../../components/ArticleCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getVisiblePosts } from '../../utils/posts';
+
+const posts = await getVisiblePosts();
+---
+
+<BaseLayout title="Articles" description="Essays and technical explorations about knowledge, intelligence, and engineering.">
+  <section class="listing-page shell">
+    <header class="listing-header">
+      <p class="eyebrow">Archive</p>
+      <h1>Articles</h1>
+      <p>Essays, engineering notes, and technical deep dives, arranged from newest to oldest.</p>
+    </header>
+    {posts.length > 0 ? (
+      <div class="article-list">
+        {posts.map((post) => <ArticleCard post={post} />)}
+      </div>
+    ) : (
+      <p class="empty-state">No articles have been published yet.</p>
+    )}
+  </section>
+</BaseLayout>

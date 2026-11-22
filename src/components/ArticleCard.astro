@@ -1,0 +1,32 @@
+---
+import type { BlogPost } from '../utils/posts';
+import { getReadingTime } from '../utils/posts';
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+const date = new Intl.DateTimeFormat('en', {
+  day: 'numeric',
+  month: 'short',
+  timeZone: 'UTC',
+  year: 'numeric',
+}).format(post.data.pubDate);
+---
+
+<article class="article-card">
+  <div class="article-card-meta">
+    <time datetime={post.data.pubDate.toISOString()}>{date}</time>
+    <span aria-hidden="true">/</span>
+    <span>{getReadingTime(post)}</span>
+    {post.data.draft && <span class="draft-label">Draft</span>}
+  </div>
+  <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
+  <p>{post.data.description}</p>
+  {post.data.tags.length > 0 && (
+    <ul class="tag-list" aria-label="Article tags">
+      {post.data.tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+  )}
+</article>
