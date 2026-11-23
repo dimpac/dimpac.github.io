@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { post, headings } = Astro.props;
+const hasTableOfContents = headings.filter(({ depth }) => depth === 2 || depth === 3).length >= 3;
 const dateFormatter = new Intl.DateTimeFormat('en', {
   day: 'numeric',
   month: 'long',
@@ -45,7 +46,7 @@ const dateFormatter = new Intl.DateTimeFormat('en', {
         </ul>
       )}
     </header>
-    <div class="post-grid">
+    <div class:list={['post-grid', { 'post-grid-no-toc': !hasTableOfContents }]}>
       <TableOfContents headings={headings} />
       <div class="article-body">
         <slot />

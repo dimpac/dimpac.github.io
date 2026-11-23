@@ -493,10 +493,14 @@ main {
 
 .post-grid {
   display: grid;
-  grid-template-columns: minmax(10rem, 14rem) minmax(0, 45rem);
-  gap: clamp(2.5rem, 6vw, 6rem);
+  grid-template-columns: minmax(10rem, 12rem) minmax(0, 52rem);
+  gap: clamp(2.5rem, 5vw, 5rem);
   align-items: start;
   margin-top: 3.5rem;
+}
+
+.post-grid-no-toc {
+  grid-template-columns: minmax(0, 52rem);
 }
 
 .table-of-contents {
