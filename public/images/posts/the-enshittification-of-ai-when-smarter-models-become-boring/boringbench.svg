@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title desc">
+  <title id="title">BoringBench</title>
+  <desc id="desc">Two overlapping conversation bubbles and an hourglass invite a conversation to continue.</desc>
+  <defs>
+    <linearGradient id="paper" x2="1" y2="1">
+      <stop stop-color="#f5ebd9"/>
+      <stop offset="1" stop-color="#e4d3b9"/>
+    </linearGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#82654a" opacity=".15"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="600" rx="24" fill="url(#paper)"/>
+  <rect width="1200" height="600" rx="24" fill="url(#dots)"/>
+  <circle cx="595" cy="288" r="224" fill="#f7efdf" opacity=".85"/>
+  <path d="M179 183h403a45 45 0 0 1 45 45v125a45 45 0 0 1-45 45H309l-84 61v-61h-46a45 45 0 0 1-45-45V228a45 45 0 0 1 45-45z" fill="#28455b"/>
+  <path d="M607 232h408a45 45 0 0 1 45 45v145a45 45 0 0 1-45 45h-52v59l-82-59H607a45 45 0 0 1-45-45V277a45 45 0 0 1 45-45z" fill="#b76246" stroke="#f7efdf" stroke-width="9"/>
+  <g fill="none" stroke="#f4dfbe" stroke-width="10" stroke-linecap="round">
+    <path d="M205 269h186M205 306h256M205 343h135"/>
+    <path d="M694 330h200M694 369h258"/>
+  </g>
+  <g transform="translate(564 56)" fill="none" stroke="#28455b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-44 0h88M-44 111h88M-31 3v15c0 23 31 32 31 39S-31 73-31 96v15M31 3v15C31 41 0 50 0 57s31 16 31 39v15"/>
+    <path d="M-20 82q20 13 40 0M-13 32q13 7 26 0" fill="#b76246" stroke="#b76246"/>
+  </g>
+  <path d="M463 518q137 23 274 0" fill="none" stroke="#28455b" stroke-width="3" opacity=".3"/>
+</svg>
